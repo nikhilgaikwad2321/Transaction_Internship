@@ -1,0 +1,58 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Price Range Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/chart.css">
+</head>
+<body>
+    <canvas id="priceRangeChart"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const items = <%- JSON.stringify(items) %>;
+            createChart(items);
+        });
+
+        function createChart(items) {
+            const labels = items.map(item => item.range);
+            const counts = items.map(item => item.count);
+
+            const ctx = document.getElementById('priceRangeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Items',
+                        data: counts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Items'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Price Range'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
